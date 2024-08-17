@@ -3,8 +3,9 @@ const bodyParser = require('body-parser')
 const { PORT } = require("./config/serverConfig")
 const { connectDB } = require("./config/dbconfig")
 const { User } = require("./schema/userSchema")
-const { useRouter } = require("./route/userRoute")
+const { userRouter } = require("./route/userRoute")
 const { cartRouter } = require("./route/cartRoute")
+const serverConfig = require("./config/serverConfig")
 
 const app = express()
 
@@ -16,7 +17,7 @@ app.use(bodyParser.urlencoded());  // express.urlencoded({extended : true})
 // routes
 // Routuing middleware
 // if your req route starts with /users then handle it using userRouter
-app.use('/users', useRouter); // connect the router to the server
+app.use('/users', userRouter); // connect the router to the server
 app.use('/carts', cartRouter);
 
 app.post('/ping', (req, res) => {
@@ -25,8 +26,8 @@ app.post('/ping', (req, res) => {
     return res.json({message : "pong"})
 })
 
-app.listen(PORT, async () => {
-    console.log(`Server started at port ${PORT} ....!`) 
+app.listen(serverConfig.PORT, async () => {
+    console.log(`Server started at port ${serverConfig.PORT} ....!`) 
     await connectDB();
     console.log("Server started");
 
