@@ -7,7 +7,6 @@ async function findUser(parameters) {
     } catch(error) {
         console.log(error);
     }
-    
 } 
 
 async function createUser(userDetails) {
