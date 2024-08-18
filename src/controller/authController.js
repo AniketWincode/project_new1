@@ -9,8 +9,8 @@ async function login(req, res) {
 
         res.cookie("authToken", response, {
             httpOnly : true, 
-            secure : false,
-            maxAge : 7 * 24 * 60 * 1000
+            secure : false, //able to access on http server
+            maxAge : 7 * 24 * 60 * 60 * 1000 // token expiry
         });
 
         return res.status(200).json({

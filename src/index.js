@@ -8,6 +8,7 @@ const { userRouter } = require("./route/userRoute")
 const { cartRouter } = require("./route/cartRoute")
 const serverConfig = require("./config/serverConfig")
 const { authRouter } = require("./route/authRoute")
+const { isLoggedIn } = require("./validation/authValidation")
 
 const app = express()
 
@@ -24,7 +25,8 @@ app.use('/users', userRouter); // connect the router to the server
 app.use('/carts', cartRouter);
 app.use('/auth', authRouter);
 
-app.post('/ping', (req, res) => {
+app.get('/ping', isLoggedIn, (req, res) => {
+    // controller
     console.log("Hello")
     // console.log(req.body);
     console.log(req.cookies);
