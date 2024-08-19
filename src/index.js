@@ -45,9 +45,10 @@ app.listen(serverConfig.PORT, async () => {
     //     lastName : 'a@@@@@',
     //     mobileNumber : '1234567899'
     // })
-
+    
     // console.log("Created new user");
     // console.log(newUser)
+
 });
 
 // ambedreb21
