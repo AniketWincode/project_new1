@@ -9,6 +9,7 @@ const { cartRouter } = require("./route/cartRoute")
 const serverConfig = require("./config/serverConfig")
 const { authRouter } = require("./route/authRoute")
 const { isLoggedIn } = require("./validation/authValidation")
+const { uploader } = require("./middlewares/multerMiddleware")
 
 const app = express()
 
@@ -33,6 +34,10 @@ app.get('/ping', isLoggedIn, (req, res) => {
     return res.json({message : "pong"})
 })
 
+app.post('/photo', uploader.single('incomingFile'), (req, res) => {
+    return res.json({message : 'Ok'})
+})
+
 app.listen(serverConfig.PORT, async () => {
     console.log(`Server started at port ${serverConfig.PORT} ....!`) 
     await connectDB();
@@ -45,7 +50,7 @@ app.listen(serverConfig.PORT, async () => {
     //     lastName : 'a@@@@@',
     //     mobileNumber : '1234567899'
     // })
-    
+
     // console.log("Created new user");
     // console.log(newUser)
 
