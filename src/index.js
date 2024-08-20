@@ -10,6 +10,9 @@ const serverConfig = require("./config/serverConfig")
 const { authRouter } = require("./route/authRoute")
 const { isLoggedIn } = require("./validation/authValidation")
 const { uploader } = require("./middlewares/multerMiddleware")
+const { cloudinary }  = require("./config/clodinaryConfig")
+const fs = require("fs/promises") // node js module it help to  give the access of file
+const path = require("path")
 
 const app = express()
 
@@ -34,13 +37,19 @@ app.get('/ping', isLoggedIn, (req, res) => {
     return res.json({message : "pong"})
 })
 
-app.post('/photo', uploader.single('incomingFile'), (req, res) => {
-    return res.json({message : 'Ok'})
+// uploader is middleware create in middlewares multerMiddleware.js
+
+app.post('/photo', uploader.single('incomingFile'), async (req, res) => {
+    console.log(req.file)
+    const result = await cloudinary.uploader.upload(req.file.path)
+    console.log("result from cloudinary", result)
+    await fs.unlink(req.file.path) // this is the path of the file
+    return res.json({message : 'ok'})
 })
 
 app.listen(serverConfig.PORT, async () => {
     console.log(`Server started at port ${serverConfig.PORT} ....!`) 
-    await connectDB();
+        await connectDB();
     console.log("Server started");
 
     // const newUser = await User.create({
