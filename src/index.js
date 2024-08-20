@@ -15,6 +15,7 @@ const fs = require("fs/promises") // node js module it help to  give the access 
 const path = require("path")
 const { Product } = require("./schema/productSchema")
 const { productRouter } = require("./route/productRoute")
+const { error } = require("console")
 
 const app = express()
 
@@ -50,6 +51,25 @@ app.post('/photo', uploader.single('incomingFile'), async (req, res) => {
     // console.log(result.url)
     await fs.unlink(req.file.path) // this is the path of the file
     return res.json({message : 'ok'})
+})
+
+app.get('/:id', async function getProductById(req, res) {
+    const response = await Product.findById('66c419ada77009253ad2e485')
+    if(!response){
+        return res.json({
+            message: "not found",
+            data: {},
+            error: error.statusCode
+        })
+    }
+    else{
+        return res.json({
+            message: "Succesfully found",
+            data: response,
+            error: {}
+        })
+        console.log(response)
+    }
 })
 
 app.listen(serverConfig.PORT, async () => {

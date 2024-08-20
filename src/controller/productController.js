@@ -1,5 +1,6 @@
 const { cloudinary } = require("../config/clodinaryConfig");
-const { createProduct } = require('../service/productService'); 
+const { createProduct, getProductById, deleteProductById } = require('../service/productService'); 
+const AppError = require("../utils/appError");
 
 async function addProduct(req, res) {
     try {
@@ -18,16 +19,82 @@ async function addProduct(req, res) {
         data: product
     });
     } catch (error) {
+        if(error instanceof AppError){
+            return res.status(error.statusCode).json({
+                success: false,
+                message: error.reason,
+                data: {},
+                error: error
+            });
+        }
         console.log(error)
-        return res.status(error.statusCode).json({
-            success: false,
-            message: error.reason,
-            data: {},
-            error: error
+            return res.status(500).json({
+                success: false,
+                message: 'Something went wrong',
+                data: {},
+                error: error
+            });
+    }
+}
+
+async function getProduct(req, res) {
+    try {
+        const respone = await getProductById(req.params.id);
+        return res.status(200).json({
+            success: true,
+            message: 'Succesfully fetched the product',
+            error: {},
+            data: respone
         })
+    } catch (error) {
+        if(error instanceof AppError){
+            return res.status(error.statusCode).json({
+                success: false,
+                message: error.reason,
+                data: {},
+                error: error
+            });
+        }
+        console.log(error)
+            return res.status(500).json({
+                success: false,
+                message: 'Something went wrong',
+                data: {},
+                error: error
+            });
+    }
+}
+
+async function deleteProduct(req, res) {
+    try {
+        const respone = await deleteProductById(req.params.id);
+        return res.status(200).json({
+            success: true,
+            message: 'Succesfully deleted the product',
+            error: {},
+            data: respone
+        })
+    } catch (error) {
+        if(error instanceof AppError){
+            return res.status(error.statusCode).json({
+                success: false,
+                message: error.reason,
+                data: {},
+                error: error
+            });
+        }
+        console.log(error)
+            return res.status(500).json({
+                success: false,
+                message: 'Something went wrong',
+                data: {},
+                error: error
+            });
     }
 }
 
 module.exports = {
-    addProduct
+    addProduct,
+    getProduct,
+    deleteProduct
 }
