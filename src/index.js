@@ -13,6 +13,8 @@ const { uploader } = require("./middlewares/multerMiddleware")
 const { cloudinary }  = require("./config/clodinaryConfig")
 const fs = require("fs/promises") // node js module it help to  give the access of file
 const path = require("path")
+const { Product } = require("./schema/productSchema")
+const { productRouter } = require("./route/productRoute")
 
 const app = express()
 
@@ -28,6 +30,7 @@ app.use(bodyParser.urlencoded());  // express.urlencoded({extended : true})
 app.use('/users', userRouter); // connect the router to the server
 app.use('/carts', cartRouter);
 app.use('/auth', authRouter);
+app.use('/product', productRouter); // This is different request from '/photo'
 
 app.get('/ping', isLoggedIn, (req, res) => {
     // controller
@@ -39,10 +42,12 @@ app.get('/ping', isLoggedIn, (req, res) => {
 
 // uploader is middleware create in middlewares multerMiddleware.js
 
+// incoming file it is postman filename key name
 app.post('/photo', uploader.single('incomingFile'), async (req, res) => {
     console.log(req.file)
-    const result = await cloudinary.uploader.upload(req.file.path)
-    console.log("result from cloudinary", result)
+    const result = await cloudinary.uploader.upload(req.file.path) // req.file.path
+    // console.log("result from cloudinary", result)
+    // console.log(result.url)
     await fs.unlink(req.file.path) // this is the path of the file
     return res.json({message : 'ok'})
 })
