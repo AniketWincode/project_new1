@@ -7,7 +7,7 @@ async function addProduct(req, res) {
         const product = await createProduct({
         productName: req.body.productName,
         description: req.body.description,
-        imagePath: req.file.path,
+        imagePath: req.file?.path,
         price: req.body.price,
         category: req.body.category, // if category is undefined veg will be stored
         inStock: req.body.inStock // if inStock is undefines then true will be stored
@@ -36,7 +36,6 @@ async function addProduct(req, res) {
             });
     }
 }
-
 async function getProduct(req, res) {
     try {
         const respone = await getProductById(req.params.id);
