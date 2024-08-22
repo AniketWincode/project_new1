@@ -29,7 +29,7 @@ async function registerUser(userDetails) {
         throw {reason: 'Something went wrong, cannot create user', statusCode: 500}
     }
 
-    await createCart(newUser._id)
+    await createCart(newUser._id) // creating a cart
 
     // 3. retuern the details of created user
     return newUser;
