@@ -11,7 +11,7 @@ async function createProduct(productsDetails){
             try {
                 const cloudinaryResponse = await cloudinary.uploader.upload(imagePath);
                 var productImage = cloudinaryResponse.secure_url; // it gives url 
-                await fs.unlink(process.cwd() + "/" + imagePath);
+                // await fs.unlink(process.cwd() + "/" + imagePath);
             } catch (error) {
                 console.log(error)
                 throw new InternalServerError();
