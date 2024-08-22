@@ -20,8 +20,8 @@ async function createProduct(productsDetails) {
 
 async function getProductById(productId) {
     try {
-        const respone = await Product.findById(productId);
-        return respone
+        const response = await Product.findById(productId);
+        return response
     } catch (error) {
         console.log(error)
         throw new InternalServerError()

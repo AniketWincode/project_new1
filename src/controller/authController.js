@@ -7,7 +7,7 @@ async function login(req, res) {
         // authservice
         const response = await loginUser(loginPayLoad);
 
-        res.cookie("authToken", response, {
+        res.cookie("authToken", response.token, {
             httpOnly : true, 
             secure : false, //able to access on http server
             maxAge : 7 * 24 * 60 * 60 * 1000 // token expiry

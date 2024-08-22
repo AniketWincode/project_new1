@@ -9,7 +9,7 @@ async function loginUser(authDetails) {
     const plainPassword = authDetails.plainPassword
 
     // 1. Check if there is a registered user with the given email
-    const user = await findUser(email);
+    const user = await findUser({ email });
     
     console.log("User: ", user);
     
@@ -20,7 +20,7 @@ async function loginUser(authDetails) {
 
     // 2. If the user us found we need to compare plaincomingpassword with hashpassword
     const isPasswordValidated = await bcrypt.compare(plainPassword, user.password); // plainPassword, increptedPassword it convert the password into hash then it will compare
-    if(isPasswordValidated){
+    if(!isPasswordValidated){
         throw {message : "Invalid password, please try again", statusCode: 401};
     }
 
@@ -31,7 +31,10 @@ async function loginUser(authDetails) {
         expiresIn : JWT_EXPIRY
     });
 
-    return token;
+    return {token, userRole, userData: {
+        email : user.email, 
+        firstName: user.firstName
+    }};
 }
 
 module.exports = {
