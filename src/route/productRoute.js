@@ -6,7 +6,7 @@ const productRouter = express.Router();
 
 productRouter.post('/', uploader.single('productImage'), addProduct);
 productRouter.get('/:id', getProduct);
-productRouter.delete('/', deleteProduct);
+productRouter.delete('/:id', deleteProduct);
 
 
 
