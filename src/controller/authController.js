@@ -1,13 +1,13 @@
 const { loginUser } = require("../service/authService")
 
 async function login(req, res) {
-
+    const loginPayLoad = req.body
     try {
-        const loginPayLoad = req.body
         // authservice
+        console.log("loginPayLoad", loginPayLoad)
         const response = await loginUser(loginPayLoad);
 
-        res.cookie("authToken", response.token, {
+        res.cookie("authToken", "", {
             httpOnly : true, 
             secure : false, //able to access on http server
             maxAge : 7 * 24 * 60 * 60 * 1000 // token expiry
@@ -16,11 +16,11 @@ async function login(req, res) {
         return res.status(200).json({
             success : true, 
             message : "Logged in successfully",
-            data : {},
-            error : {}
+            error: {},
+            data : {}
         })
     } catch (error) {
-        return res.status(401).json({
+        return res.status(501).json({
             success : false,
             data : {},
             message : error.message,

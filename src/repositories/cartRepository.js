@@ -7,7 +7,7 @@ async function createCart(userId){
         return newCart;
     } catch (error) {
         if(error.name == 'validationError'){
-            const errorMessageList = Object.keys(error.erros).map((property) => {
+            const errorMessageList = Object.keys(error.errors).map((property) => {
                 return error.erro[property].message
             })
             throw new BadRequestError(errorMessageList)
@@ -21,7 +21,7 @@ async function getCartByUserId(userId){
     try {
         const cart = await Cart.findOne({
             user : userId
-        });
+        }).populate('items.product'); // 
         return cart;
     } catch (error) {
         console.log(error)
