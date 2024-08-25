@@ -74,7 +74,7 @@ async function modifyCart(userId, productId, shouldAdd = true){
 
 async function clearProductsFromCart(userId){ // delete only cart items
     const response = await clearProductsFromCart(userId);
-    return response
+    return response;
 }
 
 module.exports = {
