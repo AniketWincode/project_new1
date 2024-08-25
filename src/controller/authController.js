@@ -1,5 +1,20 @@
 const { loginUser } = require("../service/authService")
 
+async function logout(req, res){
+    res.cookie("authToken", "", {
+        httpOnly: true, 
+        secure: false,
+        maxAge: 7 * 24 * 60 * 60 * 1000
+    }); // set the cookies to null
+
+    return res.status(200).json({
+        success: true,
+        message: "Logout succesfull",
+        data: {},
+        error: {}
+    })
+}
+
 async function login(req, res) {
 
     const loginPayLoad = req.body
@@ -35,5 +50,6 @@ async function login(req, res) {
 }
 
 module.exports = {
-    login
+    login,
+    logout
 }
