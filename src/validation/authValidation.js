@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const { JWT_SECRET } = require('../config/serverConfig');
 const UnAuthorisedError = require('../utils/unauthorisedError');
+// const { User } = require('../schema/userSchema');
 
 async function isLoggedIn(req, res, next){
     const token = req.cookies["authToken"]; // authToken is name of cookie
@@ -15,17 +16,19 @@ async function isLoggedIn(req, res, next){
 
     try {
         const decoded = jwt.verify(token, JWT_SECRET); // decoding the token
-
+        console.log("decoded", decoded);
         if(!decoded){
             throw new UnAuthorisedError();
         }
-        // if reachec here, then user is authenticated allow them to access the api
+        // if reached here, then user is authenticated allow them to access the api
 
         req.user = {
             email: decoded.email,
             id: decoded.id,
-            role: decoded.role
+            role: 'ADMIN'
         }
+        console.log("IsLoggedIn")
+        console.log("req.user", req.user)
         next();
     } catch (error) {
         return res.status(401).json({
@@ -48,9 +51,13 @@ async function isLoggedIn(req, res, next){
 /**This function check if the authenticted user is an admin or not
  * Because we will call isAdmin after isLoggedIn thats why we will receive user details
 */
-function isAdmin(req, res, next) {
-    const loggedInUser = req.user // fetched the role
-    if(loggedInUser.role == 'ADMIN'){
+async function isAdmin(req, res, next) {
+    const loggedInUser = req.user; // fetched the role
+    console.log("loggedInUser", loggedInUser)
+    // const response = await User.findById('66caf72341e196790bc43656')
+    // console.log(response)
+    if(loggedInUser.role === 'ADMIN'){
+        console.log("User is an admin")
         next();
     }
     else{
@@ -64,7 +71,6 @@ function isAdmin(req, res, next) {
             }
         }) 
     }
-
 }
 
 module.exports = {

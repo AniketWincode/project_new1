@@ -5,7 +5,7 @@ async function findUser(parameters) {
         // const response1 = await User.findOne({email : "aniketbedre9888@gmail.com"})
         // console.log(response1)
         const response = await User.findOne({...parameters});
-        console.log("reponse :", response)
+        // console.log("reponse :", response)
         return response;
     } catch(error) {
         console.log(error);

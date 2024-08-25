@@ -1,8 +1,8 @@
 const { cloudinary } = require("../config/clodinaryConfig");
 const ProductRespository = require('../repositories/productRepository')
 const fs = require('fs/promises');
-const InternalServerError = require("../utils/InternalServerError");
-const NotFoundError = require("../utils/NotFoundError");
+const InternalServerError = require("../utils/internalServerError");
+const NotFoundError = require("../utils/notFoundError");
 async function createProduct(productsDetails){
     try {
         // 1. We should check if an image is coming to create the product, then we should first upload it on cloudinary

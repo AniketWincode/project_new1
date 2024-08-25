@@ -6,7 +6,7 @@ const { JWT_SECRET, JWT_EXPIRY } = require('../config/serverConfig')
 async function loginUser(authDetails) {
     const email = authDetails.email
     // console.log("email :", email)
-    const plainPassword = authDetails.plainPassword
+    const plainPassword = authDetails.password
 
     // 1. Check if there is a registered user with the given email
     const user = await findUser({ email });

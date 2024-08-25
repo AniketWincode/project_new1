@@ -54,5 +54,6 @@ async function clearCart(userId){
 
 module.exports = {
     createCart,
-    getCartByUserId
+    getCartByUserId,
+    clearCart
 }

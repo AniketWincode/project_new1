@@ -16,6 +16,7 @@ const path = require("path")
 const { Product } = require("./schema/productSchema")
 const { productRouter } = require("./route/productRoute")
 const { error } = require("console")
+const { orderRouter } = require("./route/orderRoutes")
 
 const app = express()
 
@@ -32,6 +33,7 @@ app.use('/users', userRouter); // connect the router to the server
 app.use('/carts', cartRouter);
 app.use('/auth', authRouter);
 app.use('/product', productRouter); // This is different request from '/photo'
+app.use('/orders', orderRouter);
 
 app.get('/ping', isLoggedIn, (req, res) => {
     // controller
